@@ -1,0 +1,47 @@
+service: test3
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:PutItem
+      - dynamodb:GetItem
+    Resource: "arn:aws:dynamodb:us-east-1:751738780336:table/websites"
+
+functions:
+  get:
+    handler: handlers/get.handler
+    events:
+      - http:
+          path: get/{id}
+          method: get
+          cors:
+            origin: '*'
+  push:
+    handler: handlers/push.handler
+    events:
+      - http:
+          path: push
+          method: post
+          cors:
+            origin: '*'
+
+resources:
+  Resources:
+    WebsitesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: websites
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

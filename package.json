@@ -1,0 +1,9 @@
+{
+  "name": "shortener-back",
+  "private": true,
+  "dependencies": {
+    "lodash.get": "^4.4.2",
+    "shortid": "^2.2.15",
+    "uuid": "^3.2.1"
+  }
+}
